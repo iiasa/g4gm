@@ -27,10 +27,3 @@ for mon in ${month[*]}; do
 done
 
 g.remove -f type=raste pattern="del*"
-
-
-
-
-
-rsync --chmod=0744 prec??.tif tavg??.tif srad??.tif kinder@amur:/p/for/geobene3/g4gm/raster/weather/worldclim/v20/current
-
