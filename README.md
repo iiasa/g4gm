@@ -1,20 +1,4 @@
-# g4gm
+# g4gm - Application
 
-# Usage 
-
-  1. Clone the repository 
-    `git clone https://github.com/iiasa/g4gm.git`
-    
-  2. Move to the model folder 
-    `cd g4gm`
-    
-  3. Compile the model 
-    `make`
-    
-    
-  
-
-
-
-
-
+In this branch some applications of g4gm are given.
+As they process large amount of data this data is typically not stored here.
