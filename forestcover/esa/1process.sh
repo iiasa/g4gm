@@ -11,26 +11,25 @@ mkdir ~/tmp/grass/
 grass -e -c EPSG:4326 ~/tmp/grass/mylocation
 grass -c ~/tmp/grass/mylocation/mymapset
 
+#nohup grass ~/tmp/grass/mylocation/mymapset --exec bash 1process.sh &
 r.in.gdal input=ESACCI-LC-L4-LCCS-Map-300m-P1Y-1992_2015-v2.0.7.tif output=del band=1 --overwrite
 g.region raster=del
 
 r.mapcalc --overwrite <<EOF
-eval(mix = 0.02 * if(del==90 || del==160 || del==170,0.25, if(del==150, 0.0125, if(del==151, 0.02, if(del==110 || del==30, 0.0625, if(del==12, 0.125, if(del==40 || del==100, 0.1875)))))))
-delA = if(del==50,1,mix)
-delB = if(del>=60 && del<=62,1,mix)
-delC = if(del>=70 && del<=72,1,mix)
-delD = if(del>=80 && del<=82,1,mix)
+delA = if(del==50,1,0)
+delB = if(del>=60 && del<=62,1,0)
+delC = if(del>=70 && del<=72,1,0)
+delD = if(del>=80 && del<=82,1,0)
 EOF
 
 for BAND in {2..24}; do
     echo $BAND
     r.in.gdal input=ESACCI-LC-L4-LCCS-Map-300m-P1Y-1992_2015-v2.0.7.tif output=del band=$BAND --overwrite
     r.mapcalc --overwrite <<EOF
-eval(mix = 0.02 * if(del==90 || del==160 || del==170,0.25, if(del==150, 0.0125, if(del==151, 0.02, if(del==110 || del==30, 0.0625, if(del==12, 0.125, if(del==40 || del==100, 0.1875)))))))
-delA = delA + if(del==50,1,mix)
-delB = delB + if(del>=60 && del<=62,1,mix)
-delC = delC + if(del>=70 && del<=72,1,mix)
-delD = delD + if(del>=80 && del<=82,1,mix)
+delA = delA + if(del==50,1,0)
+delB = delB + if(del>=60 && del<=62,1,0)
+delC = delC + if(del>=70 && del<=72,1,0)
+delD = delD + if(del>=80 && del<=82,1,0)
 EOF
 done
 
